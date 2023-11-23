@@ -5,6 +5,8 @@ import Informacoes_Usuario.Usuario;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static Informacoes_Usuario.Cadastro.CadastrarUsuario;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -79,14 +81,5 @@ public class Main {
             }
         }
 
-    }
-
-    public static Usuario CadastrarUsuario(Scanner scanner) {
-        var novoUsuario = new Usuario();
-        novoUsuario.setNome(scanner);
-        novoUsuario.setPeso(scanner);
-        scanner.nextLine();
-        novoUsuario.setHabitos(scanner);
-        return novoUsuario;
     }
 }
