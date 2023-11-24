@@ -37,4 +37,9 @@ public class Usuario {
             }
         }
     }
+
+    public void ExibeInformacoes(){
+        System.out.println("Nome do usuario : " + getNome());
+        System.out.println("Acesso: " + this.acesso);
+    }
 }

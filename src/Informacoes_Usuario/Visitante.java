@@ -86,10 +86,4 @@ public class Visitante extends Usuario{
         this.habitos = ColocarHabitos(scanner);
     }
 
-    public void ExibeInformacoes(){
-        System.out.println("Nome do usuario : " + getNome());
-        System.out.println("O usuario deve beber diariamente " + this.quantidadeDeAgua+ " litros de agua");
-        System.out.println("Seria o equivalente há " + QuantidadeDeCopos()+  " copos de 250ml");
-    }
-
 }

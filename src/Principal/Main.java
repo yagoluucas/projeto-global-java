@@ -1,40 +1,66 @@
 package Principal;
 
+import Informacoes_Usuario.Administrador;
+import Informacoes_Usuario.Cadastro;
 import Informacoes_Usuario.Usuario;
-
+import Informacoes_Usuario.Visitante;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static Informacoes_Usuario.Cadastro.CadastrarUsuario;
+import static Informacoes_Usuario.Cadastro.CadastrarVisitante;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        var usuarios = new ArrayList<Usuario>();
+        var visitantes = new ArrayList<Visitante>();
+        var adm = new Administrador();
         boolean continuaCadastro = true;
         System.out.println("Olá! Vamos fazer o seu cadastro");
-        usuarios.add(CadastrarUsuario(scanner));
-        while (continuaCadastro) {
-            System.out.println("Deseja fazer mais algum Cadastro do usuario? (escolha apenas numeros): ");
-            System.out.println("""
+        while(continuaCadastro){
+            System.out.println("Você é um usuario ou um visitante ?");
+            String escolherUsuario = scanner.nextLine();
+            System.out.println("1 - usuario\n" +
+                    "2 - visitante");
+            switch (escolherUsuario) {
+                case "1":
+                    visitantes.add(Cadastro.CadastrarVisitante(scanner));
+                    while(continuaCadastro) {
+                        System.out.println("Deseja fazer mais algum Cadastro do usuario? (escolha apenas numeros): ");
+                        System.out.println("""
                     1 - sim
                     2 - não
                     """);
-            var opcao = scanner.nextLine();
-            switch (opcao) {
-                case "1":
-                    usuarios.add(CadastrarUsuario(scanner));
+                        var opcao = scanner.nextLine();
+                        switch (opcao) {
+                            case "1":
+                                visitantes.add(CadastrarVisitante(scanner));
+                                break;
+                            case "2":
+                                continuaCadastro = false;
+                                break;
+                            default:
+                                System.out.println("Por favor, escolha uma opção valida (apenas numeros)");
+                        }
+                    }
                     break;
                 case "2":
-                    continuaCadastro = false;
+                    adm = Cadastro.CadastrarAdministrador(scanner);
                     break;
                 default:
-                    System.out.println("Por favor, escolha uma opção valida (apenas numeros)");
+                    System.out.println("Por favor, escolha uma opção correta");
             }
         }
 
-        boolean continuaVerDados = true;
-        while(continuaVerDados){
+        if(visitantes.isEmpty()){
+            MenuAdm(scanner, adm);
+        } else {
+            MenuVisitante(scanner, visitantes);
+        }
+
+    }
+
+    public static void MenuVisitante(Scanner scanner, ArrayList<Visitante> visitantes) {
+        boolean continuaMenuVisitante = true;
+        while(continuaMenuVisitante){
             System.out.println("Digite o que voce deseja ver: ");
             System.out.println("""
                     1 - Quantidade de agua que tenho que beber
@@ -47,26 +73,26 @@ public class Main {
                 case "1":
                     System.out.println("Informe o nome do usuario que voce deseja ver as informações");
                     String nomeQuantidadeAgua = scanner.nextLine();
-                    for (Usuario usuario: usuarios.stream().filter
+                    for (Usuario usuario: visitantes.stream().filter
                             (usuario -> usuario.getNome().equalsIgnoreCase(nomeQuantidadeAgua)).toList()) {
                         System.out.println("-------------------------");
-                            usuario.ExibeInformacoes();
+                        usuario.ExibeInformacoes();
                         System.out.println("Retornando ao menu principal !");
                         System.out.println("-------------------------");
 
                     }
                     break;
                 case "2":
-                    System.out.println(usuarios);
+                    System.out.println(visitantes);
                     break;
                 case "3":
                     System.out.println("Informe o nome do usuario que voce deseja ver as informações");
                     String nomeHabitos = scanner.nextLine();
-                    for (Usuario usuario: usuarios.stream().filter
+                    for (Usuario usuario: visitantes.stream().filter
                             (usuario -> usuario.getNome().equalsIgnoreCase(nomeHabitos)).toList()) {
                         System.out.println("-------------------------");
                         System.out.println("Lista de hábitos: ");
-                        System.out.println(usuario.getHabitos());
+                        System.out.println();
                         System.out.println("Retornando ao menu principal !");
                         System.out.println("-------------------------");
 
@@ -74,12 +100,15 @@ public class Main {
                     break;
                 case "4":
                     System.out.println("Até logo :D");
-                    continuaVerDados = false;
+                    continuaMenuVisitante = false;
                     break;
                 default:
                     System.out.println("Escolha uma opção valida (somente numeros)");
             }
         }
+    }
+
+    public static void MenuAdm(Scanner scanner, Administrador adm){
 
     }
 }

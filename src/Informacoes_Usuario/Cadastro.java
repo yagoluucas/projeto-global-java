@@ -3,7 +3,7 @@ package Informacoes_Usuario;
 import java.util.Scanner;
 
 public class Cadastro {
-    public static Usuario CadastrarUsuario(Scanner scanner) {
+    public static Visitante CadastrarVisitante(Scanner scanner) {
         var novoVisitante = new Visitante();
         novoVisitante.setNome(scanner);
         novoVisitante.setPeso(scanner);
@@ -12,7 +12,7 @@ public class Cadastro {
         return novoVisitante;
     }
 
-    public static Administrador CadastrarAdministrador(){
+    public static Administrador CadastrarAdministrador(Scanner scanner){
         var admin = new Administrador();
         return admin;
     }
