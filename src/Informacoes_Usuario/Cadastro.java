@@ -14,6 +14,8 @@ public class Cadastro {
 
     public static Administrador CadastrarAdministrador(Scanner scanner){
         var admin = new Administrador();
+        admin.setNome(scanner);
+        admin.setAcesso(scanner);
         return admin;
     }
 }

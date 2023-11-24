@@ -16,10 +16,10 @@ public class Main {
         boolean continuaCadastro = true;
         System.out.println("Olá! Vamos fazer o seu cadastro");
         while(continuaCadastro){
-            System.out.println("Você é um usuario ou um visitante ?");
+            System.out.println("Você é um administrador ou um visitante ?");
+            System.out.println("1 - visitante\n" +
+                    "2 - administrador");
             String escolherUsuario = scanner.nextLine();
-            System.out.println("1 - usuario\n" +
-                    "2 - visitante");
             switch (escolherUsuario) {
                 case "1":
                     visitantes.add(Cadastro.CadastrarVisitante(scanner));
@@ -44,11 +44,14 @@ public class Main {
                     break;
                 case "2":
                     adm = Cadastro.CadastrarAdministrador(scanner);
+                    continuaCadastro = false;
                     break;
                 default:
                     System.out.println("Por favor, escolha uma opção correta");
             }
         }
+
+        System.out.println(visitantes.isEmpty());
 
         if(visitantes.isEmpty()){
             MenuAdm(scanner, adm);
@@ -60,6 +63,7 @@ public class Main {
 
     public static void MenuVisitante(Scanner scanner, ArrayList<Visitante> visitantes) {
         boolean continuaMenuVisitante = true;
+        System.out.println("Entrando dentro do menu de visitante...");
         while(continuaMenuVisitante){
             System.out.println("Digite o que voce deseja ver: ");
             System.out.println("""
@@ -109,6 +113,6 @@ public class Main {
     }
 
     public static void MenuAdm(Scanner scanner, Administrador adm){
-
+        // implementar lógica para opções do adm
     }
 }

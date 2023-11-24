@@ -22,9 +22,36 @@ public class Usuario {
         return acesso;
     }
 
-    public void setAcesso(List<String> acesso) {
-        this.acesso = acesso;
+    public void setAcesso(Scanner scanner) {
+        this.acesso = FazerAcesso(scanner);
     }
+
+    private List<String> FazerAcesso(Scanner scanner){
+        List<String> acesso = new ArrayList<String>();
+        while(true){
+            System.out.println("Digite seu login: ");
+            String login = scanner.nextLine();
+            if(login.length() < 3){
+                System.out.println("O login deve ter mais que 3 caracteres");
+                continue;
+            }else{
+                acesso.add(login);
+                while(true){
+                    System.out.println("Digite a sua senha: ");
+                    String senha = scanner.nextLine();
+                    if(senha.length() <=5){
+                        System.out.println("Senha deve conter ao menos 6 caracter");
+                        continue;
+                    }
+                    acesso.add(senha);
+                    break;
+                }
+            }
+            return acesso;
+
+        }
+    }
+
 
     private String ValidaNome(Scanner entrada){
         while(true) {
