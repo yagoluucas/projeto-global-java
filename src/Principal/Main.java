@@ -17,8 +17,8 @@ public class Main {
         System.out.println("Olá! Vamos fazer o seu cadastro");
         while(continuaCadastro){
             System.out.println("Você é um administrador ou um visitante ?");
-            System.out.println("1 - visitante\n" +
-                    "2 - administrador");
+            System.out.println("1 - Visitante\n" +
+                    "2 - Administrador");
             String escolherUsuario = scanner.nextLine();
             switch (escolherUsuario) {
                 case "1":
@@ -51,10 +51,8 @@ public class Main {
             }
         }
 
-        System.out.println(visitantes.isEmpty());
-
         if(visitantes.isEmpty()){
-            MenuAdm(scanner, adm);
+            MenuAdm(scanner, adm, visitantes);
         } else {
             MenuVisitante(scanner, visitantes);
         }
@@ -68,7 +66,7 @@ public class Main {
             System.out.println("Digite o que voce deseja ver: ");
             System.out.println("""
                     1 - Quantidade de agua que tenho que beber
-                    2 - Informações de todos os usuarios cadastrados
+                    2 - Informações de todos os usuarios que cadastrei
                     3 - Meus habitos para melhorar a desidratação
                     4 - Sair do menu
                     """);
@@ -77,26 +75,42 @@ public class Main {
                 case "1":
                     System.out.println("Informe o nome do usuario que voce deseja ver as informações");
                     String nomeQuantidadeAgua = scanner.nextLine();
-                    for (Usuario usuario: visitantes.stream().filter
+                    for (Visitante visitante: visitantes.stream().filter
                             (usuario -> usuario.getNome().equalsIgnoreCase(nomeQuantidadeAgua)).toList()) {
-                        System.out.println("-------------------------");
-                        usuario.ExibeInformacoes();
-                        System.out.println("Retornando ao menu principal !");
-                        System.out.println("-------------------------");
+                        visitante.ExibeInformacoes();
+                        while(true){
+                            System.out.println("Deseja ver as informações em copos e garrafas ?");
+                            System.out.println("""
+                                    1 - Sim
+                                    2 - Não
+                                    """);
+                            String opcaoAgua = scanner.nextLine();
+                            if(opcaoAgua.equals("1")){
+                                visitante.CalculaQuantidadeDeAgua(scanner, visitante.getPeso());
+                                System.out.println("Voltando ao menu..");
+                                break;
+                            } else if(opcaoAgua.equals("2")){
+                                System.out.println("Certo, vamos voltar ao menu....");
+                                break;
+                            } else{
+                                System.out.println("Escolha uma opção valida!");
+                            }
+                        }
 
                     }
                     break;
                 case "2":
                     System.out.println(visitantes);
+                    System.out.println("Retornando ao menu principal...");
                     break;
                 case "3":
                     System.out.println("Informe o nome do usuario que voce deseja ver as informações");
                     String nomeHabitos = scanner.nextLine();
-                    for (Usuario usuario: visitantes.stream().filter
-                            (usuario -> usuario.getNome().equalsIgnoreCase(nomeHabitos)).toList()) {
+                    for (Visitante visitante: visitantes.stream().filter
+                            (visitante -> visitante.getNome().equalsIgnoreCase(nomeHabitos)).toList()) {
                         System.out.println("-------------------------");
                         System.out.println("Lista de hábitos: ");
-                        System.out.println();
+                        System.out.println(visitante.getHabitos());
                         System.out.println("Retornando ao menu principal !");
                         System.out.println("-------------------------");
 
@@ -112,7 +126,40 @@ public class Main {
         }
     }
 
-    public static void MenuAdm(Scanner scanner, Administrador adm){
-        // implementar lógica para opções do adm
+    public static void MenuAdm(Scanner scanner, Administrador adm, ArrayList<Visitante> visitantes){
+        boolean continuaMenuAdm = true;
+        while(continuaMenuAdm){
+            System.out.println("Olá " + adm.getNome() + " escolha o que você deseja fazer");
+            System.out.println("""
+                    1 - Alterar conteudo da pagina
+                    2 - Mostrar minhas informações
+                    3 - Sair
+                    """);
+            String opcao = scanner.nextLine();
+            switch (opcao){
+                case "1":
+                    adm.AlteraConteudoDaPagina(scanner);
+                    break;
+                case "2":
+                    int tentativa = 0;
+                    do {
+                        System.out.println("Digite a sua senha:");
+                        String senha = scanner.nextLine();
+                        if(adm.getAcesso().get(1).equals(senha)) {
+                            adm.ExibeInformacoes();
+                            break;
+                        } else {
+                            ++tentativa;
+                            System.out.println("Senha incorreta, você tem " + (3 - tentativa) + " tentivas");
+                        }
+                    } while(tentativa < 3);
+                    if(tentativa >= 3) {
+                        System.out.println("Limite de tentativas zerado ! Não é possivel ver suas informações");
+                    }
+
+
+            }
+
+        }
     }
 }

@@ -74,8 +74,8 @@ public class Visitante extends Usuario{
         return quantidadeDeAgua;
     }
 
-    public void setQuantidadeDeAgua(double quantidadeDeAgua) {
-        this.quantidadeDeAgua = quantidadeDeAgua;
+    public void setQuantidadeDeAgua(double peso) {
+        this.quantidadeDeAgua = CaculaQuantidadeDeAgua(peso);
     }
 
     public List<String> getHabitos() {
@@ -86,4 +86,49 @@ public class Visitante extends Usuario{
         this.habitos = ColocarHabitos(scanner);
     }
 
+    @Override
+    public void ExibeInformacoes(){
+        System.out.println("Nome do usuario : " + getNome());
+        System.out.println("Peso : " + getPeso());
+        System.out.println("Quantidade de agua em litros : " + getQuantidadeDeAgua() / 1000);
+    }
+
+    private double CaculaQuantidadeDeAgua(double peso){
+        return peso * 35;
+    }
+
+    public void CalculaQuantidadeDeAgua(Scanner scanner, double peso){
+        boolean continua = true;
+        while(continua){
+            System.out.println("Escolha uma opção: ");
+            System.out.println("""
+                    1 - Calcular quantidade de agua em copos (250ml)
+                    2 - Calcular quantidade de agua em garrafa (500ml)
+                    3 - Sair
+                    """);
+            String opcao = scanner.nextLine();
+            switch (opcao){
+                case "1":
+                    System.out.println("Voce terá que tomar " + getQuantidadeDeAgua() / 250 + " copos de 250ml");
+                    break;
+                case "2":
+                    System.out.println("Você terá que tomar " + getQuantidadeDeAgua() / 500 + " garrafas de 500ml");
+                    break;
+                case "3":
+                    System.out.println("Retornando ao menu");
+                    continua = false;
+                    break;
+                default:
+                    System.out.println("Escolha uma opção valida !");
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Nome: " + this.getNome() + "\n"+
+               "Peso: " + this.getPeso() + "\n" +
+               "Quantidade de agua em litros que precisa tomar: " + this.getQuantidadeDeAgua() / 1000 + "\n" +
+               "Habitos : " + this.habitos;
+    }
 }

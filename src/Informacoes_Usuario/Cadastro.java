@@ -9,6 +9,8 @@ public class Cadastro {
         novoVisitante.setPeso(scanner);
         scanner.nextLine();
         novoVisitante.setHabitos(scanner);
+        novoVisitante.setQuantidadeDeAgua(novoVisitante.getPeso());
+        novoVisitante.setAcesso(scanner);
         return novoVisitante;
     }
 
